@@ -106,14 +106,14 @@ function loadSong(song) {
 function playSong() {
     isPlaying = true;
     audio.play();
-    playBtn.textContent = "||"; // Пауза
+    playBtn.textContent = "⏸"; // Пауза
 }
 
 // Pause song
 function pauseSong() {
     isPlaying = false;
     audio.pause();
-    playBtn.textContent = "▶"; // Воспроизведение
+    playBtn.textContent = "▶️"; // Воспроизведение
 }
 
 // Next song
@@ -184,56 +184,6 @@ document.addEventListener('keydown', function(event) {
         event.preventDefault();
         }
     });
-
-// Функция для извлечения доминирующего цвета из изображения
-function getDominantColor(img) {
-    const canvas = document.createElement('canvas');
-    canvas.width = img.width;
-    canvas.height = img.height;
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(img, 0, 0, img.width, img.height);
-
-    const imageData = ctx.getImageData(0, 0, img.width, img.height).data;
-    const colorCounts = {};
-
-    for (let i = 0; i < imageData.length; i += 4) {
-        const r = imageData[i];
-        const g = imageData[i + 1];
-        const b = imageData[i + 2];
-        const alpha = imageData[i + 3];
-
-        // Пропускаем прозрачные пиксели
-        if (alpha < 200) continue;
-
-        const color = `rgb(${r}, ${g}, ${b})`;
-        colorCounts[color] = (colorCounts[color] || 0) + 1;
-    }
-
-    let dominantColor = null;
-    let maxCount = 0;
-
-    for (const color in colorCounts) {
-        if (colorCounts[color] > maxCount) {
-            dominantColor = color;
-            maxCount = colorCounts[color];
-        }
-    }
-
-    return dominantColor;
-}
-
-// Функция для установки фона
-function setBackground(color) {
-    document.body.style.backgroundColor = color; // Или любой другой элемент
-}
-
-// Обработчик загрузки обложки
-cover.onload = () => {
-    const dominantColor = getDominantColor(cover);
-    if (dominantColor) {
-        setBackground(dominantColor);
-    }
-};
 
 // Initial song load
 loadSong(songs[songIndex]);
